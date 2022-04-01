@@ -1,6 +1,6 @@
 # capacitor-plugin-qonversion
 
-Plugin to allow users in-app purchases and subscriptions via the use of Qonversion
+Plugin to allow users in-app purchases and subscriptions via the use of [Qonversion](https://qonversion.io/)
 
 ## Install
 
