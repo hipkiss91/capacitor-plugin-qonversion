@@ -65,6 +65,11 @@ public class EntitiesConverter {
         data.put("store_id", product.getStoreID());
         data.put("type", product.getType().getType());
 
+        String offeringId = product.getOfferingID();
+        if (offeringId != null) {
+            map.putString("offeringId", offeringId);
+        }
+
         QProductDuration duration = product.getDuration();
         if (duration != null) {
             data.put("duration", duration.getType());
@@ -76,7 +81,6 @@ public class EntitiesConverter {
         }
 
         SkuDetails skuDetails = product.getSkuDetail();
-
         if (skuDetails != null) {
             data.put("storeProduct", mapSkuDetails(product.getSkuDetail()));
             data.put("prettyPrice", product.getPrettyPrice());
@@ -96,8 +100,8 @@ public class EntitiesConverter {
 
             map.put("id", entry.getValue().getPermissionID());
             map.put("associated_product", entry.getValue().getProductID());
-            map.put("renew_state", entry.getValue().getRenewState().getType());
             map.put("active", entry.getValue().isActive());
+            map.put("renew_state", entry.getValue().getRenewState());
             map.put("started_timestamp", (double)entry.getValue().getStartedDate().getTime());
 
             Date expirationDate = entry.getValue().getExpirationDate();
@@ -186,27 +190,21 @@ public class EntitiesConverter {
         data.put("freeTrialPeriod", skuDetails.getFreeTrialPeriod());
         data.put("iconUrl", skuDetails.getIconUrl());
         data.put("introductoryPrice", skuDetails.getIntroductoryPrice());
-        // Uncommented for full data from Google
-        // data.put("introductoryPriceAmountMicros", (double)skuDetails.getIntroductoryPriceAmountMicros());
+        data.put("introductoryPriceAmountMicros", (double)skuDetails.getIntroductoryPriceAmountMicros());
         data.put("introductoryPriceCycles", skuDetails.getIntroductoryPriceCycles());
         data.put("introductoryPricePeriod", skuDetails.getIntroductoryPricePeriod());
-        // Uncommented for full data from Google
-        // data.put("originalJson", skuDetails.getOriginalJson());
+        data.put("originalJson", skuDetails.getOriginalJson());
         data.put("originalPrice", skuDetails.getOriginalPrice());
-        // Uncommented for full data from Google
-        // data.put("originalPriceAmountMicros", (double)skuDetails.getOriginalPriceAmountMicros());
+        data.put("originalPriceAmountMicros", (double)skuDetails.getOriginalPriceAmountMicros());
         data.put("price", skuDetails.getPrice());
-        // Uncommented for full data from Google
-        // data.put("priceAmountMicros", (double)skuDetails.getPriceAmountMicros());
+        data.put("priceAmountMicros", (double)skuDetails.getPriceAmountMicros());
         data.put("priceCurrencyCode", skuDetails.getPriceCurrencyCode());
         data.put("sku", skuDetails.getSku());
         data.put("subscriptionPeriod", skuDetails.getSubscriptionPeriod());
         data.put("title", skuDetails.getTitle());
         data.put("type", skuDetails.getType());
-        // Uncommented for full data from Google
-        // data.put("hashCode", skuDetails.hashCode());
-        // Uncommented for full data from Google
-        // data.put("toString", skuDetails.toString());
+        data.put("hashCode", skuDetails.hashCode());
+        data.put("toString", skuDetails.toString());
 
         return data;
     }

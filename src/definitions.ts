@@ -6,7 +6,6 @@ export interface QonversionPluginPlugin {
     // Initialisation
     launchWithKey(options: {key: String, observerMode: Boolean}): Promise<objectData>;
     // User Session Methods
-    setUserId(options: {value: String}): Promise<void>;
     setDebugMode(): Promise<void>;
     resetUser(): Promise<void>;
     identify(options: {userID: String}): Promise<void>;

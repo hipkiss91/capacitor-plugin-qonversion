@@ -28,6 +28,7 @@ import com.qonversion.android.sdk.dto.offerings.QOfferings;
 import com.qonversion.android.sdk.dto.QPermission;
 import com.qonversion.android.sdk.dto.products.QProduct;
 import com.qonversion.android.sdk.dto.eligibility.QEligibility;
+import com.qonversion.android.sdk.dto.eligibility.QIntroEligibilityStatus;
 
 import org.json.JSONArray;
 import org.jetbrains.annotations.NotNull;
@@ -48,15 +49,15 @@ public class QonversionPluginPlugin extends Plugin {
     private QonversionError qonversionError;
     private QonversionSDKInfo sdkInfoToSave;
 
-    // private static final HashMap<Integer, QUserProperties> userPropertiesMap = new HashMap<Integer, QUserProperties>() {{
-    //     put(0, QUserProperties.Email);
-    //     put(1, QUserProperties.Name);
-    //     put(2, QUserProperties.AppsFlyerUserId);
-    //     put(3, QUserProperties.AdjustAdId);
-    //     put(4, QUserProperties.KochavaDeviceId);
-    //     put(5, QUserProperties.CustomUserId);
-    //     put(6, QUserProperties.FacebookAttribution);
-    // }};
+    private static final HashMap<String, QUserProperties> userPropertiesMap = new HashMap<String, QUserProperties>() {{
+        put("EMAIL", QUserProperties.Email);
+        put("NAME", QUserProperties.Name);
+        put("APPS_FLYER_USER_ID", QUserProperties.AppsFlyerUserId);
+        put("ADJUST_USER_ID", QUserProperties.AdjustAdId);
+        put("KOCHAVA_DEVICE_ID", QUserProperties.KochavaDeviceId);
+        put("CUSTOM_USER_ID", QUserProperties.CustomUserId);
+        put("FACEBOOK_ATTRIBUTION", QUserProperties.FacebookAttribution);
+    }};
 
     /*
        Initialisation
@@ -79,7 +80,8 @@ public class QonversionPluginPlugin extends Plugin {
         activity = getActivity();
         if (activity == null){
             qonversionError = generateActivityError();
-            call.reject(qonversionError.getDescription(), qonversionError.getCode().toString());
+            String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+            call.reject(qonversionError.getCode().toString(), errorMessage);
             return;
         }
 
@@ -98,7 +100,8 @@ public class QonversionPluginPlugin extends Plugin {
 
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
-                call.reject(qonversionError.getCode().toString(), qonversionError.getDescription());
+                String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+                call.reject(qonversionError.getCode().toString(), errorMessage);
             }
         });
     }
@@ -106,18 +109,6 @@ public class QonversionPluginPlugin extends Plugin {
     /*
        User Session Methods
      */
-    @PluginMethod
-    public void setUserId(PluginCall call) {
-        String userId = call.getString("userId", "");
-
-        if (userId == null) {
-            call.reject("Please provide the following values to use this method:", "{userId}");
-            return;
-        }
-
-        Qonversion.setUserID(userId);
-    }
-
     @PluginMethod
     public void setDebugMode() {
         Qonversion.setDebugMode();
@@ -143,6 +134,23 @@ public class QonversionPluginPlugin extends Plugin {
     @PluginMethod
     public void logout() {
         Qonversion.logout();
+    }
+
+    @PluginMethod
+    public void setProperty(PluginCall call) {
+        String propertyKey = call.getString("propertyKey", "");
+        String propertyValue = call.getString("propertyValue", "");
+
+        if (propertyKey == null || propertyValue == null) {
+            call.reject("Please provide the following values to use this method:", "{propertyKey}, {propertyValue}");
+            return;
+        }
+
+        QUserProperties property = userPropertiesMap.get(propertyKey);
+
+        if (property != null) {
+            Qonversion.setProperty(property, propertyValue);
+        }
     }
 
     @PluginMethod
@@ -183,6 +191,7 @@ public class QonversionPluginPlugin extends Plugin {
 
     /*
        Permissions
+       Note please that the permission object will be available only in case the user made any purchase. In case there were no purchases you will receive an empty result.
      */
     @PluginMethod
     public void checkPermissions(PluginCall call) {
@@ -197,7 +206,8 @@ public class QonversionPluginPlugin extends Plugin {
 
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
-                call.reject(qonversionError.getCode().toString(), qonversionError.getDescription());
+                String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+                call.reject(qonversionError.getCode().toString(), errorMessage);
             }
         });
     }
@@ -214,7 +224,10 @@ public class QonversionPluginPlugin extends Plugin {
             return;
         }
 
-        List<String> productsList = new ArrayList(Arrays.asList(products));
+        List<String> productsList = new ArrayList<String>(products.length());
+        for(int i=0; i< products.length(); i++){
+            productsList.add(products.optString(i));
+        }
 
         Qonversion.checkTrialIntroEligibilityForProductIds(productsList, new QonversionEligibilityCallback() {
             @Override
@@ -227,7 +240,8 @@ public class QonversionPluginPlugin extends Plugin {
 
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
-                call.reject(qonversionError.getCode().toString(), qonversionError.getDescription());
+                String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+                call.reject(qonversionError.getCode().toString(), errorMessage);
             }
         });
     }
@@ -247,7 +261,8 @@ public class QonversionPluginPlugin extends Plugin {
         Activity currentActivity = getActivity();
         if(currentActivity == null){
             qonversionError = generateActivityError();
-            call.reject(qonversionError.getDescription(), qonversionError.getCode().toString());
+            String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+            call.reject(qonversionError.getCode().toString(), errorMessage);
             return;
         }
 
@@ -262,7 +277,8 @@ public class QonversionPluginPlugin extends Plugin {
 
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
-                call.reject(qonversionError.getCode().toString(), qonversionError.getDescription());
+                String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+                call.reject(qonversionError.getCode().toString(), errorMessage);
             }
         });
     }
@@ -280,7 +296,8 @@ public class QonversionPluginPlugin extends Plugin {
 
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
-                call.reject(qonversionError.getCode().toString(), qonversionError.getDescription());
+                String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+                call.reject(qonversionError.getCode().toString(), errorMessage);
             }
         });
     }
@@ -306,7 +323,8 @@ public class QonversionPluginPlugin extends Plugin {
 
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
-                call.reject(qonversionError.getCode().toString(), qonversionError.getDescription());
+                String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+                call.reject(qonversionError.getCode().toString(), errorMessage);
             }
         });
     }
@@ -327,7 +345,8 @@ public class QonversionPluginPlugin extends Plugin {
 
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
-                call.reject(qonversionError.getCode().toString(), qonversionError.getDescription());
+                String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+                call.reject(qonversionError.getCode().toString(), errorMessage);
             }
         });
     }
@@ -340,20 +359,16 @@ public class QonversionPluginPlugin extends Plugin {
         Qonversion.offerings(new QonversionOfferingsCallback() {
             @Override
             public void onSuccess(@NotNull QOfferings offerings) {
-                if (offerings.getMain() != null && !offerings.getMain().getProducts().isEmpty()) {
-                    // Display products for sale
-                    JSObject result = new JSObject();
-                    JSONArray data = EntitiesConverter.mapOfferings(offerings);
-                    result.put("data", data);
-                    call.resolve(result);
-                } else {
-                    call.reject("No Offerings or Products have been configured in the Qonversion Product Centre.");
-                }
+                JSObject result = new JSObject();
+                JSONArray data = EntitiesConverter.mapOfferings(offerings);
+                result.put("data", data);
+                call.resolve(result);
             }
 
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
-                call.reject(qonversionError.getCode().toString(), qonversionError.getDescription());
+                String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
+                call.reject(qonversionError.getCode().toString(), errorMessage);
             }
         });
     }
@@ -362,7 +377,7 @@ public class QonversionPluginPlugin extends Plugin {
        Supporting Methods
      */
     private QonversionError generateActivityError () {
-        return new QonversionError(QonversionErrorCode.UnknownError, "Something went wrong.");
+        return new QonversionError(QonversionErrorCode.UnknownError, "Android current activity is null, cannot perform the process.");
     }
 
     private void storeSDKInfoToPreferences(QonversionSDKInfo sdkInfo, Activity currentActivity){
