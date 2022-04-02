@@ -12,6 +12,7 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 /*
   Qonversion Android library
  */
+import com.qonversion.android.sdk.AttributionSource;
 import com.qonversion.android.sdk.QUserProperties;
 import com.qonversion.android.sdk.Qonversion;
 import com.qonversion.android.sdk.QonversionEligibilityCallback;
@@ -28,12 +29,11 @@ import com.qonversion.android.sdk.dto.offerings.QOfferings;
 import com.qonversion.android.sdk.dto.QPermission;
 import com.qonversion.android.sdk.dto.products.QProduct;
 import com.qonversion.android.sdk.dto.eligibility.QEligibility;
-import com.qonversion.android.sdk.dto.eligibility.QIntroEligibilityStatus;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +64,7 @@ public class QonversionPluginPlugin extends Plugin {
      */
     @PluginMethod
     public void launchWithKey(PluginCall call) {
-        String key = call.getString("key", "");
+        String key = call.getString("key");
         Boolean observerMode = call.getBoolean("observerMode", false);
 
         if (key == null) {
@@ -115,13 +115,8 @@ public class QonversionPluginPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void resetUser() {
-        Qonversion.resetUser();
-    }
-
-    @PluginMethod
     public void identify(PluginCall call) {
-        String userId = call.getString("userId", "");
+        String userId = call.getString("userId");
 
         if (userId == null) {
             call.reject("Please provide the following values to use this method:", "{userId}");
@@ -138,8 +133,8 @@ public class QonversionPluginPlugin extends Plugin {
 
     @PluginMethod
     public void setProperty(PluginCall call) {
-        String propertyKey = call.getString("propertyKey", "");
-        String propertyValue = call.getString("propertyValue", "");
+        String propertyKey = call.getString("propertyKey");
+        String propertyValue = call.getString("propertyValue");
 
         if (propertyKey == null || propertyValue == null) {
             call.reject("Please provide the following values to use this method:", "{propertyKey}, {propertyValue}");
@@ -155,8 +150,8 @@ public class QonversionPluginPlugin extends Plugin {
 
     @PluginMethod
     public void setUserProperty(PluginCall call) {
-        String propertyKey = call.getString("propertyKey", "");
-        String propertyValue = call.getString("propertyValue", "");
+        String propertyKey = call.getString("propertyKey");
+        String propertyValue = call.getString("propertyValue");
 
         if (propertyKey == null || propertyValue == null) {
             call.reject("Please provide the following values to use this method:", "{propertyKey}, {propertyValue}");
@@ -168,10 +163,10 @@ public class QonversionPluginPlugin extends Plugin {
 
     @PluginMethod
     public void storeSDKInfo(PluginCall call) {
-        String sourceKey = call.getString("sourceKey", "");
-        String source = call.getString("source", "");
-        String sdkVersionKey = call.getString("sdkVersionKey", "");
-        String sdkVersion = call.getString("sdkVersion", "");
+        String sourceKey = call.getString("sourceKey");
+        String source = call.getString("source");
+        String sdkVersionKey = call.getString("sdkVersionKey");
+        String sdkVersion = call.getString("sdkVersion");
 
         if (sourceKey == null || source == null || sdkVersionKey == null || sdkVersion == null) {
             call.reject("Please provide the following values to use this method:", "{sourceKey}, {source}, {sdkVersionKey}, {sdkVersion}");
@@ -224,7 +219,7 @@ public class QonversionPluginPlugin extends Plugin {
             return;
         }
 
-        List<String> productsList = new ArrayList<String>(products.length());
+        List<String> productsList = new ArrayList<>(products.length());
         for(int i=0; i< products.length(); i++){
             productsList.add(products.optString(i));
         }
@@ -251,7 +246,7 @@ public class QonversionPluginPlugin extends Plugin {
      */
     @PluginMethod
     public void purchase(PluginCall call) {
-        String productId = call.getString("productId", "");
+        String productId = call.getString("productId");
 
         if (productId == null) {
             call.reject("Please provide the following values to use this method:", "{productId}");
@@ -373,8 +368,73 @@ public class QonversionPluginPlugin extends Plugin {
         });
     }
 
+    /**
+     * Notifications
+     */
+    @PluginMethod
+    public void setNotificationsToken(PluginCall call) {
+        String token = call.getString("token");
+
+        if (token == null) {
+            call.reject("Please provide the following values to use this method:", "{token}");
+            return;
+        }
+
+        Qonversion.setNotificationsToken(token);
+    }
+
+    @PluginMethod
+    public void handleNotification(PluginCall call) {
+        String notificationData = call.getString("notificationData");
+
+        if (notificationData == null) {
+            call.reject("Please provide the following values to use this method:", "{notificationData}");
+            return;
+        }
+    }
+
+    /**
+     * 3rd Party Integrations
+     */
+    @PluginMethod
+    public void addAttributionData(PluginCall call) {
+        JSObject data = call.getObject("data");
+        Integer provider = call.getInt("provider");
+
+        if (data == null || provider == null) {
+            call.reject("Please provide the following values to use this method:", "{notificationData}");
+            return;
+        }
+
+        AttributionSource source = null;
+        switch (provider) {
+            case 0:
+                source = AttributionSource.AppsFlyer;
+                break;
+            case 1:
+                source = AttributionSource.Branch;
+                break;
+            case 2:
+                source = AttributionSource.Adjust;
+                break;
+        }
+
+        if (source == null) {
+            call.reject("Please provide the following values to use this method:", "{notificationData}");
+            return;
+        }
+
+        try {
+            HashMap attributesHashMap = EntitiesConverter.convertJSObjectToHashMap(data);
+            Qonversion.attribution(attributesHashMap, source);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            call.reject("Failed to add attribution data to 3rd party.");
+        }
+    }
+
     /*
-       Supporting Methods
+     * Supporting Methods
      */
     private QonversionError generateActivityError () {
         return new QonversionError(QonversionErrorCode.UnknownError, "Android current activity is null, cannot perform the process.");

@@ -63,4 +63,5 @@ dependencies {
     // // https://mvnrepository.com/artifact/androidx.preference/preference
     implementation 'androidx.preference:preference:1.2.0'
     implementation "com.android.billingclient:billing:4.0.0"
+    implementation "com.google.firebase:firebase-messaging:21.0.1"
 }

@@ -19,12 +19,19 @@ import com.qonversion.android.sdk.dto.products.QProduct;
 import com.qonversion.android.sdk.dto.products.QProductDuration;
 import com.qonversion.android.sdk.dto.eligibility.QEligibility;
 import com.qonversion.android.sdk.dto.products.QTrialDuration;
+import com.qonversion.android.sdk.automations.QActionResult;
+import com.qonversion.android.sdk.QonversionError;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
-import org.json.JSONObject;
+import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 public class EntitiesConverter {
     static JSObject mapLaunchWithKeySuccess(QLaunchResult launchResult) {
@@ -44,8 +51,6 @@ public class EntitiesConverter {
 
     /**
      * Products
-     * 
-     * @return Array {products}
      */
     static JSONArray mapProducts(Map<String, QProduct> products) {
         JSONArray data = new JSONArray();
@@ -67,7 +72,7 @@ public class EntitiesConverter {
 
         String offeringId = product.getOfferingID();
         if (offeringId != null) {
-            map.putString("offeringId", offeringId);
+            data.put("offeringId", offeringId);
         }
 
         QProductDuration duration = product.getDuration();
@@ -129,7 +134,7 @@ public class EntitiesConverter {
         }
 
         for (QOffering offering : offerings.getAvailableOfferings()) {
-            JSONObject offeringFormatted = mapOffering(offering);
+            JSObject offeringFormatted = mapOffering(offering);
             result.put(offeringFormatted);
         }
 
@@ -148,7 +153,7 @@ public class EntitiesConverter {
         JSONArray convertedProducts = new JSONArray();
 
         for (QProduct product : offering.getProducts()) {
-            JSONObject productFormatted = mapProduct(product);
+            JSObject productFormatted = mapProduct(product);
             convertedProducts.put(productFormatted);
         }
 
@@ -210,7 +215,7 @@ public class EntitiesConverter {
     }
 
     /**
-     * Other Methods
+     * Eligibility
      */
     static JSONArray mapEligibility(Map<String, QEligibility> eligibilities) {
         JSONArray result = new JSONArray();
@@ -227,5 +232,77 @@ public class EntitiesConverter {
         }
 
         return result;
+    }
+
+    /**
+     * Automations
+     */
+    static JSObject mapActionResult(QActionResult actionResult) {
+        JSObject result = new JSObject();
+        
+        result.put("type", actionResult.getType().getType());
+        result.put("error", mapQonversionError(actionResult.getError()));
+        result.put("value", mapStringsMap(actionResult.getValue()));
+        return result;
+    }
+
+    /**
+     * Other Methods
+     */
+    static JSObject mapQonversionError(@Nullable QonversionError error) {
+        if (error == null) {
+            return null;
+        }
+
+        JSObject result = new JSObject();
+        result.put("code", error.getCode().toString());
+        result.put("description", error.getDescription());
+        result.put("additionalMessage", error.getAdditionalMessage());
+        return result;
+    }
+
+    static JSObject mapStringsMap(@Nullable Map<String, String> map) {
+        if (map == null) {
+            return null;
+        }
+
+        JSObject result = new JSObject();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+        return result;
+    }
+
+    static HashMap<String, Object> convertJSObjectToHashMap(JSObject jsonObject) throws JSONException {
+        return (HashMap<String, Object>)toMap(jsonObject);
+    }
+
+    static Map<String, Object> toMap(JSObject jsonobj)  throws JSONException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Iterator<String> keys = jsonobj.keys();
+        while(keys.hasNext()) {
+            String key = keys.next();
+            Object value = jsonobj.get(key);
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            } else if (value instanceof JSObject) {
+                value = toMap((JSObject) value);
+            }
+            map.put(key, value);
+        }   return map;
+    }
+
+    public static List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<Object>();
+        for(int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if (value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+            else if (value instanceof JSObject) {
+                value = toMap((JSObject) value);
+            }
+            list.add(value);
+        }   return list;
     }
 }

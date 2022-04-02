@@ -14,9 +14,7 @@ npx cap sync
 <docgen-index>
 
 * [`launchWithKey(...)`](#launchwithkey)
-* [`setUserId(...)`](#setuserid)
 * [`setDebugMode()`](#setdebugmode)
-* [`resetUser()`](#resetuser)
 * [`identify(...)`](#identify)
 * [`logout()`](#logout)
 * [`setUserProperty(...)`](#setuserproperty)
@@ -29,6 +27,7 @@ npx cap sync
 * [`experiments()`](#experiments)
 * [`products()`](#products)
 * [`offerings()`](#offerings)
+* [`addAttributionData(...)`](#addattributiondata)
 * [Interfaces](#interfaces)
 * [Type Aliases](#type-aliases)
 
@@ -55,32 +54,10 @@ launchWithKey(options: { key: String; observerMode: Boolean; }) => Promise<objec
 --------------------
 
 
-### setUserId(...)
-
-```typescript
-setUserId(options: { value: String; }) => Promise<void>
-```
-
-| Param         | Type                                                  |
-| ------------- | ----------------------------------------------------- |
-| **`options`** | <code>{ value: <a href="#string">String</a>; }</code> |
-
---------------------
-
-
 ### setDebugMode()
 
 ```typescript
 setDebugMode() => Promise<void>
-```
-
---------------------
-
-
-### resetUser()
-
-```typescript
-resetUser() => Promise<void>
 ```
 
 --------------------
@@ -222,6 +199,21 @@ products() => Promise<any>
 ```typescript
 offerings() => Promise<any | null>
 ```
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### addAttributionData(...)
+
+```typescript
+addAttributionData(options: { data: Object; provider: Number; }) => Promise<any>
+```
+
+| Param         | Type                                                                                         |
+| ------------- | -------------------------------------------------------------------------------------------- |
+| **`options`** | <code>{ data: <a href="#object">Object</a>; provider: <a href="#number">Number</a>; }</code> |
 
 **Returns:** <code>Promise&lt;any&gt;</code>
 
@@ -397,6 +389,19 @@ Allows manipulation and formatting of text strings and determination and locatio
 | --------- | ------------------------------------------------------------------ |
 | **join**  | (separator?: string \| undefined) =&gt; string                     |
 | **slice** | (start?: number \| undefined, end?: number \| undefined) =&gt; T[] |
+
+
+#### Number
+
+An object that represents a number of any kind. All JavaScript numbers are 64-bit floating-point numbers.
+
+| Method            | Signature                                           | Description                                                                                                                       |
+| ----------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **toString**      | (radix?: number \| undefined) =&gt; string          | Returns a string representation of an object.                                                                                     |
+| **toFixed**       | (fractionDigits?: number \| undefined) =&gt; string | Returns a string representing a number in fixed-point notation.                                                                   |
+| **toExponential** | (fractionDigits?: number \| undefined) =&gt; string | Returns a string containing a number represented in exponential notation.                                                         |
+| **toPrecision**   | (precision?: number \| undefined) =&gt; string      | Returns a string containing a number represented either in exponential or fixed-point notation with a specified number of digits. |
+| **valueOf**       | () =&gt; number                                     | Returns the primitive value of the specified object.                                                                              |
 
 
 ### Type Aliases

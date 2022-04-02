@@ -7,7 +7,6 @@ export interface QonversionPluginPlugin {
     launchWithKey(options: {key: String, observerMode: Boolean}): Promise<objectData>;
     // User Session Methods
     setDebugMode(): Promise<void>;
-    resetUser(): Promise<void>;
     identify(options: {userID: String}): Promise<void>;
     logout(): Promise<void>;
     setUserProperty(options: {key: String, value: String}): Promise<void>;
@@ -26,7 +25,16 @@ export interface QonversionPluginPlugin {
     products(): Promise<any>;
     // Offerings
     offerings(): Promise<any | null>;
+    // Notifications
+    // setNotificationsToken(options: { token: String }): Promise<null>;
+    // handleNotification(): Promise<any>;
+    // 3rd Parties
+    addAttributionData(options: { data: Object, provider: Number }): Promise<any>;
 }
+
+// export interface AutomationsModule {
+//     subscribe(): Promise<any>;
+// }
 
 export interface objectData {
     data: Object;
