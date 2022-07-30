@@ -17,10 +17,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hipkiss91/vue.git"
+    "url": "git+https://github.com/hipkiss91/capacitor-plugin-qonversion.git"
   },
   "bugs": {
-    "url": "https://github.com/hipkiss91/vue/issues"
+    "url": "https://github.com/hipkiss91/capacitor-plugin-qonversion/issues"
   },
   "keywords": [
     "capacitor",
