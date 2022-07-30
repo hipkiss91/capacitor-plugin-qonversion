@@ -1,6 +1,6 @@
 {
   "name": "capacitor-plugin-qonversion",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Plugin to allow users in-app purchases and subscriptions via the use of Qonversion",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
