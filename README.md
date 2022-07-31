@@ -246,82 +246,13 @@ addAttributionData(options: AttributionData) => Promise<any>
 
 #### LaunchResult
 
-| Prop               | Type                |
-| ------------------ | ------------------- |
-| **`uid`**          | <code>string</code> |
-| **`timestamp`**    | <code>number</code> |
-| **`products`**     | <code>any[]</code>  |
-| **`permissions`**  | <code>any[]</code>  |
-| **`userProducts`** | <code>any[]</code>  |
-
-
-#### LaunchOptions
-
-| Prop               | Type                 |
-| ------------------ | -------------------- |
-| **`key`**          | <code>string</code>  |
-| **`observerMode`** | <code>boolean</code> |
-
-
-#### IdentifyOptions
-
-| Prop         | Type                |
-| ------------ | ------------------- |
-| **`userID`** | <code>string</code> |
-
-
-#### PropertyOptions
-
-| Prop        | Type                |
-| ----------- | ------------------- |
-| **`key`**   | <code>string</code> |
-| **`value`** | <code>string</code> |
-
-
-#### SDKInfo
-
-| Prop                | Type                |
-| ------------------- | ------------------- |
-| **`sourceKey`**     | <code>string</code> |
-| **`source`**        | <code>string</code> |
-| **`sdkVersionKey`** | <code>string</code> |
-| **`sdkVersion`**    | <code>string</code> |
-
-
-#### PermissionResult
-
-| Prop                      | Type                                                                                    |
-| ------------------------- | --------------------------------------------------------------------------------------- |
-| **`id`**                  | <code>string</code>                                                                     |
-| **`associatedProduct`**   | <code>string</code>                                                                     |
-| **`active`**              | <code>boolean</code>                                                                    |
-| **`renewState`**          | <code>'NonRenewable' \| 'Unknown' \| 'WillRenew' \| 'Canceled' \| 'BillingIssue'</code> |
-| **`startedTimestamp`**    | <code>number</code>                                                                     |
-| **`expirationTimestamp`** | <code>number</code>                                                                     |
-| **`key`**                 | <code>string</code>                                                                     |
-
-
-#### EligibilityResult
-
-| Prop            | Type                |
-| --------------- | ------------------- |
-| **`productId`** | <code>string</code> |
-| **`status`**    | <code>string</code> |
-| **`key`**       | <code>string</code> |
-
-
-#### ProductIds
-
-| Prop           | Type                  |
-| -------------- | --------------------- |
-| **`products`** | <code>string[]</code> |
-
-
-#### ProductId
-
-| Prop            | Type                |
-| --------------- | ------------------- |
-| **`productId`** | <code>string</code> |
+| Prop               | Type                            |
+| ------------------ | ------------------------------- |
+| **`uid`**          | <code>string</code>             |
+| **`timestamp`**    | <code>number</code>             |
+| **`products`**     | <code>ProductResult[]</code>    |
+| **`permissions`**  | <code>PermissionResult[]</code> |
+| **`userProducts`** | <code>ProductResult[]</code>    |
 
 
 #### ProductResult
@@ -361,6 +292,75 @@ addAttributionData(options: AttributionData) => Promise<any>
 | **`type`**                          | <code>string</code> |
 | **`hashCode`**                      | <code>number</code> |
 | **`toString`**                      | <code>string</code> |
+
+
+#### PermissionResult
+
+| Prop                      | Type                                                                                    |
+| ------------------------- | --------------------------------------------------------------------------------------- |
+| **`id`**                  | <code>string</code>                                                                     |
+| **`associatedProduct`**   | <code>string</code>                                                                     |
+| **`active`**              | <code>boolean</code>                                                                    |
+| **`renewState`**          | <code>'NonRenewable' \| 'Unknown' \| 'WillRenew' \| 'Canceled' \| 'BillingIssue'</code> |
+| **`startedTimestamp`**    | <code>number</code>                                                                     |
+| **`expirationTimestamp`** | <code>number</code>                                                                     |
+| **`key`**                 | <code>string</code>                                                                     |
+
+
+#### LaunchOptions
+
+| Prop               | Type                 |
+| ------------------ | -------------------- |
+| **`key`**          | <code>string</code>  |
+| **`observerMode`** | <code>boolean</code> |
+
+
+#### IdentifyOptions
+
+| Prop         | Type                |
+| ------------ | ------------------- |
+| **`userID`** | <code>string</code> |
+
+
+#### PropertyOptions
+
+| Prop        | Type                |
+| ----------- | ------------------- |
+| **`key`**   | <code>string</code> |
+| **`value`** | <code>string</code> |
+
+
+#### SDKInfo
+
+| Prop                | Type                |
+| ------------------- | ------------------- |
+| **`sourceKey`**     | <code>string</code> |
+| **`source`**        | <code>string</code> |
+| **`sdkVersionKey`** | <code>string</code> |
+| **`sdkVersion`**    | <code>string</code> |
+
+
+#### EligibilityResult
+
+| Prop            | Type                |
+| --------------- | ------------------- |
+| **`productId`** | <code>string</code> |
+| **`status`**    | <code>string</code> |
+| **`key`**       | <code>string</code> |
+
+
+#### ProductIds
+
+| Prop           | Type                  |
+| -------------- | --------------------- |
+| **`products`** | <code>string[]</code> |
+
+
+#### ProductId
+
+| Prop            | Type                |
+| --------------- | ------------------- |
+| **`productId`** | <code>string</code> |
 
 
 #### OfferingResult

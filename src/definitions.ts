@@ -84,9 +84,9 @@ export interface Result<T> {
 export interface LaunchResult {
   uid: string;
   timestamp: number;
-  products: any[];
-  permissions: any[];
-  userProducts: any[];
+  products: ProductResult[];
+  permissions: PermissionResult[];
+  userProducts: ProductResult[];
 }
 
 export interface EligibilityResult {
@@ -148,4 +148,36 @@ export interface PermissionResult {
   startedTimestamp: number;
   expirationTimestamp: number;
   key: string;
+}
+
+export interface Error {
+  message: string;
+  code?: ErrorCode | string;
+}
+
+export enum ErrorCode {
+  UnknownError,
+  PlayStoreError,
+  BillingUnavailable,
+  PurchasePending,
+  PurchaseUnspecified,
+  PurchaseInvalid,
+  CanceledPurchase,
+  ProductNotOwned,
+  ProductAlreadyOwned,
+  FeatureNotSupported,
+  ProductUnavailable,
+  NetworkConnectionFailed,
+  ParseResponseFailed,
+  BackendError,
+  ProductNotFound,
+  OfferingsNotFound,
+  LaunchError,
+  SkuDetailsError,
+  InvalidCredentials,
+  InvalidClientUid,
+  UnknownClientPlatform,
+  FraudPurchase,
+  ProjectConfigError,
+  InvalidStoreCredentials,
 }

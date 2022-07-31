@@ -3,6 +3,7 @@ package poker.mylive.plugins.qonversion.android;
 /*
   Capacitor Android Library
  */
+
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
@@ -33,6 +34,7 @@ import com.qonversion.android.sdk.dto.eligibility.QEligibility;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +42,11 @@ import java.util.Map;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+
 import androidx.preference.PreferenceManager;
 import androidx.fragment.app.FragmentActivity;
 
+@SuppressWarnings("unused")
 @CapacitorPlugin(name = "QonversionPlugin")
 public class QonversionPluginPlugin extends Plugin {
     private FragmentActivity activity;
@@ -78,14 +82,14 @@ public class QonversionPluginPlugin extends Plugin {
         }
 
         activity = getActivity();
-        if (activity == null){
+        if (activity == null) {
             qonversionError = generateActivityError();
             String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-            call.reject(qonversionError.getCode().toString(), errorMessage);
+            call.reject(errorMessage, qonversionError.getCode().toString());
             return;
         }
 
-        if(this.sdkInfoToSave != null){
+        if (this.sdkInfoToSave != null) {
             storeSDKInfoToPreferences(this.sdkInfoToSave, activity);
         }
 
@@ -101,7 +105,7 @@ public class QonversionPluginPlugin extends Plugin {
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
                 String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-                call.reject(qonversionError.getCode().toString(), errorMessage);
+                call.reject(errorMessage, qonversionError.getCode().toString());
             }
         });
     }
@@ -176,7 +180,7 @@ public class QonversionPluginPlugin extends Plugin {
         Activity currentActivity = getActivity();
         QonversionSDKInfo sdkInfo = new QonversionSDKInfo(sourceKey, source, sdkVersionKey, sdkVersion);
 
-        if(currentActivity == null){
+        if (currentActivity == null) {
             this.sdkInfoToSave = sdkInfo;
             return;
         }
@@ -202,7 +206,7 @@ public class QonversionPluginPlugin extends Plugin {
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
                 String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-                call.reject(qonversionError.getCode().toString(), errorMessage);
+                call.reject(errorMessage, qonversionError.getCode().toString());
             }
         });
     }
@@ -220,7 +224,7 @@ public class QonversionPluginPlugin extends Plugin {
         }
 
         List<String> productsList = new ArrayList<>(products.length());
-        for(int i=0; i< products.length(); i++){
+        for (int i = 0; i < products.length(); i++) {
             productsList.add(products.optString(i));
         }
 
@@ -236,7 +240,7 @@ public class QonversionPluginPlugin extends Plugin {
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
                 String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-                call.reject(qonversionError.getCode().toString(), errorMessage);
+                call.reject(errorMessage, qonversionError.getCode().toString());
             }
         });
     }
@@ -254,16 +258,16 @@ public class QonversionPluginPlugin extends Plugin {
         }
 
         Activity currentActivity = getActivity();
-        if(currentActivity == null){
+        if (currentActivity == null) {
             qonversionError = generateActivityError();
             String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-            call.reject(qonversionError.getCode().toString(), errorMessage);
+            call.reject(errorMessage, qonversionError.getCode().toString());
             return;
         }
 
         Qonversion.purchase(currentActivity, productId, new QonversionPermissionsCallback() {
             @Override
-            public void onSuccess(@NotNull Map<String,QPermission> map) {
+            public void onSuccess(@NotNull Map<String, QPermission> map) {
                 JSObject result = new JSObject();
                 JSONArray data = EntitiesConverter.mapPermissions(map);
                 result.put("data", data);
@@ -273,7 +277,7 @@ public class QonversionPluginPlugin extends Plugin {
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
                 String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-                call.reject(qonversionError.getCode().toString(), errorMessage);
+                call.reject(errorMessage, qonversionError.getCode().toString());
             }
         });
     }
@@ -292,7 +296,7 @@ public class QonversionPluginPlugin extends Plugin {
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
                 String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-                call.reject(qonversionError.getCode().toString(), errorMessage);
+                call.reject(errorMessage, qonversionError.getCode().toString());
             }
         });
     }
@@ -319,7 +323,7 @@ public class QonversionPluginPlugin extends Plugin {
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
                 String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-                call.reject(qonversionError.getCode().toString(), errorMessage);
+                call.reject(errorMessage, qonversionError.getCode().toString());
             }
         });
     }
@@ -341,7 +345,7 @@ public class QonversionPluginPlugin extends Plugin {
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
                 String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-                call.reject(qonversionError.getCode().toString(), errorMessage);
+                call.reject(errorMessage, qonversionError.getCode().toString());
             }
         });
     }
@@ -363,7 +367,7 @@ public class QonversionPluginPlugin extends Plugin {
             @Override
             public void onError(@NotNull QonversionError qonversionError) {
                 String errorMessage = qonversionError.getDescription() + "\n" + qonversionError.getAdditionalMessage();
-                call.reject(qonversionError.getCode().toString(), errorMessage);
+                call.reject(errorMessage, qonversionError.getCode().toString());
             }
         });
     }
@@ -389,7 +393,6 @@ public class QonversionPluginPlugin extends Plugin {
 
         if (notificationData == null) {
             call.reject("Please provide the following values to use this method:", "{notificationData}");
-            return;
         }
     }
 
@@ -436,11 +439,11 @@ public class QonversionPluginPlugin extends Plugin {
     /*
      * Supporting Methods
      */
-    private QonversionError generateActivityError () {
+    private QonversionError generateActivityError() {
         return new QonversionError(QonversionErrorCode.UnknownError, "Android current activity is null, cannot perform the process.");
     }
 
-    private void storeSDKInfoToPreferences(QonversionSDKInfo sdkInfo, Activity currentActivity){
+    private void storeSDKInfoToPreferences(QonversionSDKInfo sdkInfo, Activity currentActivity) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(currentActivity.getApplication()).edit();
         editor.putString(sdkInfo.sdkVersionKey, sdkInfo.sdkVersion);
         editor.putString(sdkInfo.sourceKey, sdkInfo.source);
