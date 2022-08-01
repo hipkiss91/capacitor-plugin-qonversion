@@ -44,7 +44,7 @@ public class EntitiesConverter {
         result.put("timestamp", (double)launchResult.getDate().getTime());
         result.put("products", products);
         result.put("permissions", permissions);
-        result.put("user_products", userProducts);
+        result.put("userProducts", userProducts);
 
         return result;
     }
@@ -67,7 +67,7 @@ public class EntitiesConverter {
         JSObject data = new JSObject();
 
         data.put("id", product.getQonversionID());
-        data.put("store_id", product.getStoreID());
+        data.put("storeId", product.getStoreID());
         data.put("type", product.getType().getType());
 
         String offeringId = product.getOfferingID();
@@ -104,14 +104,14 @@ public class EntitiesConverter {
             JSObject map = new JSObject();
 
             map.put("id", entry.getValue().getPermissionID());
-            map.put("associated_product", entry.getValue().getProductID());
+            map.put("associatedProduct", entry.getValue().getProductID());
             map.put("active", entry.getValue().isActive());
-            map.put("renew_state", entry.getValue().getRenewState());
-            map.put("started_timestamp", (double)entry.getValue().getStartedDate().getTime());
+            map.put("renewState", entry.getValue().getRenewState());
+            map.put("startedTimestamp", (double)entry.getValue().getStartedDate().getTime());
 
             Date expirationDate = entry.getValue().getExpirationDate();
             if (expirationDate != null) {
-                map.put("expiration_timestamp", (double)expirationDate.getTime());
+                map.put("expirationTimestamp", (double)expirationDate.getTime());
             }
 
             map.put("key", entry.getKey());
