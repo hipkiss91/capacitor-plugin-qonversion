@@ -1,5 +1,7 @@
 # capacitor-plugin-qonversion
 
+### NB: Been aware for a year but updates and fixes will resume shortly
+
 Plugin to allow users in-app purchases and subscriptions via the use of [Qonversion](https://qonversion.io/)
 
 ## Install
