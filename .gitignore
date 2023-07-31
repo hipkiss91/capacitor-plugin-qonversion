@@ -1,8 +1,6 @@
 # node files
 dist
 node_modules
-package-lock.json
-pnpm-lock.yaml
 
 # iOS files
 Pods

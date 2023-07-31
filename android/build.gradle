@@ -55,13 +55,13 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
-    implementation "io.qonversion.android.sdk:sdk:3.2.4"
+    implementation "io.qonversion.android.sdk:sdk:3.3.0"
     // // https://mvnrepository.com/artifact/org.jetbrains/annotations
     implementation 'org.jetbrains:annotations:13.0'
     // // https://mvnrepository.com/artifact/androidx.fragment/fragment
     // implementation 'androidx.fragment:fragment:1.4.1'
     // // https://mvnrepository.com/artifact/androidx.preference/preference
     implementation 'androidx.preference:preference:1.2.0'
-    implementation "com.android.billingclient:billing:4.0.0"
+    implementation "com.android.billingclient:billing:5.1.0"
     implementation "com.google.firebase:firebase-messaging:21.0.1"
 }

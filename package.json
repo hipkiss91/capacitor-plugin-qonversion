@@ -1,6 +1,6 @@
 {
   "name": "capacitor-plugin-qonversion",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Plugin to allow users in-app purchases and subscriptions via the use of Qonversion",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -13,14 +13,19 @@
     "ios/Plugin/",
     "CapacitorPluginQonversion.podspec"
   ],
-  "author": "",
+  "author": "hipkiss91",
+  "contributors": [
+    {
+      "name": "khang-nd"
+    }
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hipkiss91/vue.git"
+    "url": "git+https://github.com/hipkiss91/capacitor-plugin-qonversion.git"
   },
   "bugs": {
-    "url": "https://github.com/hipkiss91/vue/issues"
+    "url": "https://github.com/hipkiss91/capacitor-plugin-qonversion/issues"
   },
   "keywords": [
     "capacitor",
@@ -60,7 +65,7 @@
     "typescript": "~5.1.6"
   },
   "peerDependencies": {
-    "@capacitor/core": "^3.0.0"
+    "@capacitor/core": "^5.0.0"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
