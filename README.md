@@ -33,6 +33,7 @@ npx cap sync
 * [`offerings()`](#offerings)
 * [`addAttributionData(...)`](#addattributiondata)
 * [Interfaces](#interfaces)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -45,14 +46,16 @@ that can be accessed by the application.
 ### launchWithKey(...)
 
 ```typescript
-launchWithKey(options: { key: String; observerMode: Boolean; }) => any
+launchWithKey(options: LaunchOptions) => Promise<Result<LaunchResult>>
 ```
 
-| Param         | Type                                          |
-| ------------- | --------------------------------------------- |
-| **`options`** | <code>{ key: any; observerMode: any; }</code> |
+Launch the Qonversion instance with the provided `projectKey`, optionally enable `observerMode`.
 
-**Returns:** <code>any</code>
+| Param         | Type                                                    |
+| ------------- | ------------------------------------------------------- |
+| **`options`** | <code><a href="#launchoptions">LaunchOptions</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&lt;<a href="#launchresult">LaunchResult</a>&gt;&gt;</code>
 
 --------------------
 
@@ -60,10 +63,10 @@ launchWithKey(options: { key: String; observerMode: Boolean; }) => any
 ### setDebugMode()
 
 ```typescript
-setDebugMode() => any
+setDebugMode() => Promise<void>
 ```
 
-**Returns:** <code>any</code>
+Set the flag to distinguish sandbox and production users.
 
 --------------------
 
@@ -71,14 +74,12 @@ setDebugMode() => any
 ### identify(...)
 
 ```typescript
-identify(options: { userID: String; }) => any
+identify(options: IdentifyOptions) => Promise<void>
 ```
 
-| Param         | Type                          |
-| ------------- | ----------------------------- |
-| **`options`** | <code>{ userID: any; }</code> |
-
-**Returns:** <code>any</code>
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#identifyoptions">IdentifyOptions</a></code> |
 
 --------------------
 
@@ -86,10 +87,8 @@ identify(options: { userID: String; }) => any
 ### logout()
 
 ```typescript
-logout() => any
+logout() => Promise<void>
 ```
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -97,14 +96,12 @@ logout() => any
 ### setUserProperty(...)
 
 ```typescript
-setUserProperty(options: { key: String; value: String; }) => any
+setUserProperty(options: PropertyOptions) => Promise<void>
 ```
 
-| Param         | Type                                   |
-| ------------- | -------------------------------------- |
-| **`options`** | <code>{ key: any; value: any; }</code> |
-
-**Returns:** <code>any</code>
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#propertyoptions">PropertyOptions</a></code> |
 
 --------------------
 
@@ -112,14 +109,12 @@ setUserProperty(options: { key: String; value: String; }) => any
 ### storeSDKInfo(...)
 
 ```typescript
-storeSDKInfo(options: { sourceKey: String; source: String; sdkVersionKey: String; sdkVersion: String; }) => any
+storeSDKInfo(options: SDKInfo) => Promise<void>
 ```
 
-| Param         | Type                                                                               |
-| ------------- | ---------------------------------------------------------------------------------- |
-| **`options`** | <code>{ sourceKey: any; source: any; sdkVersionKey: any; sdkVersion: any; }</code> |
-
-**Returns:** <code>any</code>
+| Param         | Type                                        |
+| ------------- | ------------------------------------------- |
+| **`options`** | <code><a href="#sdkinfo">SDKInfo</a></code> |
 
 --------------------
 
@@ -127,10 +122,12 @@ storeSDKInfo(options: { sourceKey: String; source: String; sdkVersionKey: String
 ### checkPermissions()
 
 ```typescript
-checkPermissions() => any
+checkPermissions() => Promise<Result<PermissionResult[]>>
 ```
 
-**Returns:** <code>any</code>
+Check the user receipt and return all the associated permissions.
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&lt;PermissionResult[]&gt;&gt;</code>
 
 --------------------
 
@@ -138,14 +135,16 @@ checkPermissions() => any
 ### checkTrialIntroEligibilityForProductIds(...)
 
 ```typescript
-checkTrialIntroEligibilityForProductIds(options: { products: Array<String>; }) => any
+checkTrialIntroEligibilityForProductIds(options: ProductIds) => Promise<Result<EligibilityResult[]>>
 ```
 
-| Param         | Type                            |
-| ------------- | ------------------------------- |
-| **`options`** | <code>{ products: any; }</code> |
+Check if the user is eligible for an introductory offer of the products.
 
-**Returns:** <code>any</code>
+| Param         | Type                                              |
+| ------------- | ------------------------------------------------- |
+| **`options`** | <code><a href="#productids">ProductIds</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&lt;EligibilityResult[]&gt;&gt;</code>
 
 --------------------
 
@@ -153,14 +152,16 @@ checkTrialIntroEligibilityForProductIds(options: { products: Array<String>; }) =
 ### purchase(...)
 
 ```typescript
-purchase(options: { productId: String; }) => any
+purchase(options: ProductId) => Promise<Result<PermissionResult[]>>
 ```
 
-| Param         | Type                             |
-| ------------- | -------------------------------- |
-| **`options`** | <code>{ productId: any; }</code> |
+Perform a purchase for the product.
 
-**Returns:** <code>any</code>
+| Param         | Type                                            |
+| ------------- | ----------------------------------------------- |
+| **`options`** | <code><a href="#productid">ProductId</a></code> |
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&lt;PermissionResult[]&gt;&gt;</code>
 
 --------------------
 
@@ -168,10 +169,10 @@ purchase(options: { productId: String; }) => any
 ### restore()
 
 ```typescript
-restore() => any
+restore() => Promise<Result<PermissionResult[]>>
 ```
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&lt;PermissionResult[]&gt;&gt;</code>
 
 --------------------
 
@@ -179,10 +180,8 @@ restore() => any
 ### syncPurchases()
 
 ```typescript
-syncPurchases() => any
+syncPurchases() => Promise<void>
 ```
-
-**Returns:** <code>any</code>
 
 --------------------
 
@@ -190,10 +189,10 @@ syncPurchases() => any
 ### experiments()
 
 ```typescript
-experiments() => any
+experiments() => Promise<Result<any[]>>
 ```
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&lt;any[]&gt;&gt;</code>
 
 --------------------
 
@@ -201,10 +200,12 @@ experiments() => any
 ### products()
 
 ```typescript
-products() => any
+products() => Promise<Result<ProductResult[]>>
 ```
 
-**Returns:** <code>any</code>
+Retrieve a list of available products.
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&lt;ProductResult[]&gt;&gt;</code>
 
 --------------------
 
@@ -212,10 +213,12 @@ products() => any
 ### offerings()
 
 ```typescript
-offerings() => any
+offerings() => Promise<Result<OfferingResult[]>>
 ```
 
-**Returns:** <code>any</code>
+Retrieve a list of available offerings.
+
+**Returns:** <code>Promise&lt;<a href="#result">Result</a>&lt;OfferingResult[]&gt;&gt;</code>
 
 --------------------
 
@@ -223,14 +226,14 @@ offerings() => any
 ### addAttributionData(...)
 
 ```typescript
-addAttributionData(options: { data: Object; provider: Number; }) => any
+addAttributionData(options: AttributionData) => Promise<any>
 ```
 
-| Param         | Type                                       |
-| ------------- | ------------------------------------------ |
-| **`options`** | <code>{ data: any; provider: any; }</code> |
+| Param         | Type                                                        |
+| ------------- | ----------------------------------------------------------- |
+| **`options`** | <code><a href="#attributiondata">AttributionData</a></code> |
 
-**Returns:** <code>any</code>
+**Returns:** <code>Promise&lt;any&gt;</code>
 
 --------------------
 
@@ -238,10 +241,159 @@ addAttributionData(options: { data: Object; provider: Number; }) => any
 ### Interfaces
 
 
-#### objectData
+#### Result
 
-| Prop       | Type                |
-| ---------- | ------------------- |
-| **`data`** | <code>Object</code> |
+| Prop       | Type           |
+| ---------- | -------------- |
+| **`data`** | <code>T</code> |
+
+
+#### LaunchResult
+
+| Prop               | Type                            |
+| ------------------ | ------------------------------- |
+| **`uid`**          | <code>string</code>             |
+| **`timestamp`**    | <code>number</code>             |
+| **`products`**     | <code>ProductResult[]</code>    |
+| **`permissions`**  | <code>PermissionResult[]</code> |
+| **`userProducts`** | <code>ProductResult[]</code>    |
+
+
+#### ProductResult
+
+| Prop                | Type                                            |
+| ------------------- | ----------------------------------------------- |
+| **`id`**            | <code>string</code>                             |
+| **`storeId`**       | <code>string</code>                             |
+| **`type`**          | <code>number</code>                             |
+| **`offeringId`**    | <code>string</code>                             |
+| **`duration`**      | <code>number</code>                             |
+| **`trialDuration`** | <code>number</code>                             |
+| **`storeProduct`**  | <code><a href="#skuresult">SkuResult</a></code> |
+| **`prettyPrice`**   | <code>string</code>                             |
+
+
+#### SkuResult
+
+| Prop                                | Type                |
+| ----------------------------------- | ------------------- |
+| **`description`**                   | <code>string</code> |
+| **`freeTrialPeriod`**               | <code>string</code> |
+| **`iconUrl`**                       | <code>string</code> |
+| **`introductoryPrice`**             | <code>string</code> |
+| **`introductoryPriceAmountMicros`** | <code>number</code> |
+| **`introductoryPriceCycles`**       | <code>number</code> |
+| **`introductoryPricePeriod`**       | <code>string</code> |
+| **`originalJson`**                  | <code>string</code> |
+| **`originalPrice`**                 | <code>string</code> |
+| **`originalPriceAmountMicros`**     | <code>number</code> |
+| **`price`**                         | <code>string</code> |
+| **`priceAmountMicros`**             | <code>number</code> |
+| **`priceCurrencyCode`**             | <code>string</code> |
+| **`sku`**                           | <code>string</code> |
+| **`subscriptionPeriod`**            | <code>string</code> |
+| **`title`**                         | <code>string</code> |
+| **`type`**                          | <code>string</code> |
+| **`hashCode`**                      | <code>number</code> |
+| **`toString`**                      | <code>string</code> |
+
+
+#### PermissionResult
+
+| Prop                      | Type                                                                                    |
+| ------------------------- | --------------------------------------------------------------------------------------- |
+| **`id`**                  | <code>string</code>                                                                     |
+| **`associatedProduct`**   | <code>string</code>                                                                     |
+| **`active`**              | <code>boolean</code>                                                                    |
+| **`renewState`**          | <code>'NonRenewable' \| 'Unknown' \| 'WillRenew' \| 'Canceled' \| 'BillingIssue'</code> |
+| **`startedTimestamp`**    | <code>number</code>                                                                     |
+| **`expirationTimestamp`** | <code>number</code>                                                                     |
+| **`key`**                 | <code>string</code>                                                                     |
+
+
+#### LaunchOptions
+
+| Prop               | Type                 |
+| ------------------ | -------------------- |
+| **`key`**          | <code>string</code>  |
+| **`observerMode`** | <code>boolean</code> |
+
+
+#### IdentifyOptions
+
+| Prop         | Type                |
+| ------------ | ------------------- |
+| **`userID`** | <code>string</code> |
+
+
+#### PropertyOptions
+
+| Prop        | Type                |
+| ----------- | ------------------- |
+| **`key`**   | <code>string</code> |
+| **`value`** | <code>string</code> |
+
+
+#### SDKInfo
+
+| Prop                | Type                |
+| ------------------- | ------------------- |
+| **`sourceKey`**     | <code>string</code> |
+| **`source`**        | <code>string</code> |
+| **`sdkVersionKey`** | <code>string</code> |
+| **`sdkVersion`**    | <code>string</code> |
+
+
+#### EligibilityResult
+
+| Prop            | Type                |
+| --------------- | ------------------- |
+| **`productId`** | <code>string</code> |
+| **`status`**    | <code>string</code> |
+| **`key`**       | <code>string</code> |
+
+
+#### ProductIds
+
+| Prop           | Type                  |
+| -------------- | --------------------- |
+| **`products`** | <code>string[]</code> |
+
+
+#### ProductId
+
+| Prop            | Type                |
+| --------------- | ------------------- |
+| **`productId`** | <code>string</code> |
+
+
+#### OfferingResult
+
+| Prop                   | Type                         |
+| ---------------------- | ---------------------------- |
+| **`id`**               | <code>string</code>          |
+| **`main`**             | <code>boolean</code>         |
+| **`tag`**              | <code>number</code>          |
+| **`offeringProducts`** | <code>ProductResult[]</code> |
+
+
+#### AttributionData
+
+| Prop           | Type                                                            |
+| -------------- | --------------------------------------------------------------- |
+| **`data`**     | <code>any</code>                                                |
+| **`provider`** | <code><a href="#attributionsource">AttributionSource</a></code> |
+
+
+### Enums
+
+
+#### AttributionSource
+
+| Members         | Value          |
+| --------------- | -------------- |
+| **`AppsFlyer`** | <code>0</code> |
+| **`Branch`**    | <code>1</code> |
+| **`Adjust`**    | <code>2</code> |
 
 </docgen-api>
